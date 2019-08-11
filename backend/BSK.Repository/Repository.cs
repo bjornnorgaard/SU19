@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
-using BSK.Models;
+using BSK.Models.Database;
 
 namespace BSK.Repository
 {
     public class Repository : IRepository
     {
-        public List<User> Users { get; set; }
-        public List<Basket> Baskets { get; set; }
-        public List<Product> Products { get; set; }
+        public List<User> Users { get; set; } = new List<User>();
+        public List<Basket> Baskets { get; set; } = new List<Basket>();
+        public List<Product> Products { get; set; } = new List<Product>();
 
         public Repository()
         {

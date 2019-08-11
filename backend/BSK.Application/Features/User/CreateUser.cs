@@ -1,31 +1,32 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using BSK.Infrastructure;
-using BSK.Models;
 using BSK.Repository;
 using FluentValidation;
 using MediatR;
 
-namespace BSK.Application.Features
+namespace BSK.Application.Features.User
 {
-    public class GetBasket
+    public class CreateUser
     {
         public class Command : IRequest<Result>
         {
-            public int UserId { get; set; }
+            public int Id { get; set; }
+            public string Name { get; set; }
         }
 
         public class Result : IRequest
         {
-            public Basket Basket { get; set; }
+            public Models.Database.User User { get; set; }
         }
 
         public class Validator : AbstractValidator<Command>
         {
             public Validator()
             {
-                RuleFor(p => p.UserId).NotEmpty();
+                RuleFor(p => p.Id).NotEmpty();
+                RuleFor(p => p.Name).NotEmpty();
             }
         }
 
@@ -40,13 +41,13 @@ namespace BSK.Application.Features
 
             public Task<Result> Handle(Command command, CancellationToken cancellationToken)
             {
-                var user = _repository.Users.FirstOrDefault(u => u.Id == command.UserId);
-                if(user == null) throw new NotFoundException("User not found");
+                var user = _repository.Users.FirstOrDefault(u => u.Id == command.Id);
+                if(user != null) throw new ArgumentException("User already exists");
 
-                var basket = _repository.Baskets.FirstOrDefault(b => b.UserId == command.UserId);
-                if(basket == null) throw new NotFoundException("User not found");
-                                                                    
-                return Task.FromResult(new Result { Basket = basket });
+                user = new Models.Database.User { Id = command.Id, Name = command.Name };
+                _repository.Users.Add(user);
+
+                return Task.FromResult(new Result { User = user });
             }
         }
     }

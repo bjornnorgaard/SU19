@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BSK.Infrastructure
+namespace BSK.Infrastructure.Exceptions
 {
     public class NotFoundException : Exception
     {

@@ -5,6 +5,7 @@ using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
+using Swashbuckle.AspNetCore.Swagger;
 
 namespace BSK.WebApi
 {
@@ -19,15 +20,24 @@ namespace BSK.WebApi
 
             services.AddSingleton<IRepository, Repository.Repository>();
 
+            services.AddSwaggerGen(o =>
+            {
+                o.SwaggerDoc("v1", new Info {Title = "Basket API", Version = "v1"});
+                o.CustomSchemaIds(x => x.FullName);
+            });
+
             services.AddMvc();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            if (env.IsDevelopment())
+            if(env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseSwagger();
+            app.UseSwaggerUI(o => o.SwaggerEndpoint("/swagger/v1/swagger.json", "api v1"));
 
             app.UseMvc();
         }

@@ -1,4 +1,4 @@
-﻿namespace BSK.Models
+﻿namespace BSK.Models.Database
 {
     public class User
     {

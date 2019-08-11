@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using BSK.Models;
+using BSK.Models.Database;
 
 namespace BSK.Repository
 {

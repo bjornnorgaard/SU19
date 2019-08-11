@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace BSK.Models
+namespace BSK.Models.Database
 {
     public class Basket
     {

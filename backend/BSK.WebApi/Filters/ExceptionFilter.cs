@@ -1,4 +1,4 @@
-﻿using BSK.Infrastructure;
+﻿using BSK.Infrastructure.Exceptions;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using FluentValidation.Results;

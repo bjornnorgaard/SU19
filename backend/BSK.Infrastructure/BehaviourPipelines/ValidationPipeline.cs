@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using FluentValidation;
 using MediatR;
 
-namespace BSK.Infrastructure
+namespace BSK.Infrastructure.BehaviourPipelines
 {
     public class ValidationPipeline<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
     {

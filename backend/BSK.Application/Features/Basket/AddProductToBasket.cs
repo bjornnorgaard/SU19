@@ -1,14 +1,14 @@
 ﻿using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using BSK.Infrastructure;
+using BSK.Infrastructure.Exceptions;
 using BSK.Repository;
 using FluentValidation;
 using MediatR;
 
-namespace BSK.Application.Features
+namespace BSK.Application.Features.Basket
 {
-    public class RemoveProductFromBasket
+    public class AddProductToBasket
     {
         public class Command : IRequest<Result>
         {
@@ -26,8 +26,8 @@ namespace BSK.Application.Features
         {
             public Validator()
             {
-                RuleFor(p => p.UserId).NotEmpty();
                 RuleFor(p => p.ProductId).NotEmpty();
+                RuleFor(p => p.UserId).NotEmpty();
             }
         }
 
@@ -45,13 +45,17 @@ namespace BSK.Application.Features
                 var user = _repository.Users.FirstOrDefault(u => u.Id == command.UserId);
                 if(user == null) throw new NotFoundException("User not found");
 
+                var product = _repository.Products.FirstOrDefault(p => p.Id == command.ProductId);
+                if(product == null) throw new NotFoundException("Product not found");
+
                 var basket = _repository.Baskets.FirstOrDefault(b => b.UserId == command.UserId);
-                if(basket == null) return Task.FromResult(new Result { Success = true, Error = "Basket not found" });
+                if(basket == null)
+                {
+                    basket = new Models.Database.Basket(command.UserId);
+                    _repository.Baskets.Add(basket);
+                }
 
-                var product = basket.Products.FirstOrDefault(p => p.Id == command.ProductId);
-                if (product == null) return Task.FromResult(new Result {Success = true, Error = "Product not found"});
-
-                basket.Remove(product);
+                basket.Products.Add(product);
 
                 return Task.FromResult(new Result { Success = true });
             }
