@@ -1,5 +1,7 @@
-﻿using BSK.Application;
+﻿using System.Globalization;
+using BSK.Application;
 using BSK.Repository;
+using BSK.WebApi.Middleware;
 using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
@@ -36,9 +38,12 @@ namespace BSK.WebApi
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseMiddleware<TraceMiddleware>();
+            app.UseMiddleware<StopwatchMiddleware>();
+
             app.UseSwagger();
             app.UseSwaggerUI(o => o.SwaggerEndpoint("/swagger/v1/swagger.json", "api v1"));
-
+                     
             app.UseMvc();
         }
     }
