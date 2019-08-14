@@ -21,6 +21,6 @@ namespace BSK.Models.Database
         public void Remove(Product product)
         {
             Products.Remove(product);
-        } 
+        }
     }
 }

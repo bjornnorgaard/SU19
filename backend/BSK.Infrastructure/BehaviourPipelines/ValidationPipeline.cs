@@ -18,12 +18,16 @@ namespace BSK.Infrastructure.BehaviourPipelines
             RequestHandlerDelegate<TResponse> next)
         {
             if(_validator == null)
+            {
                 return await next();
+            }
 
             var result = await _validator.ValidateAsync(request, cancellationToken);
 
             if(!result.IsValid)
+            {
                 throw new ValidationException(result.Errors);
+            }
 
             return await next();
         }

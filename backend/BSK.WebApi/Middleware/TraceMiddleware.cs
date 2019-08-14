@@ -14,10 +14,10 @@ namespace BSK.WebApi.Middleware
         }
 
         public async Task InvokeAsync(HttpContext context)
-        {                                         
+        {
             var guid = Guid.NewGuid();
             context.Items.Add("TraceId", guid);
-            await _next(context);                                                    
+            await _next(context);
         }
     }
 }

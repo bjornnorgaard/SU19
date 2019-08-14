@@ -1,5 +1,4 @@
-﻿using System.Globalization;
-using BSK.Application;
+﻿using BSK.Application;
 using BSK.Repository;
 using BSK.WebApi.Middleware;
 using FluentValidation;
@@ -43,7 +42,7 @@ namespace BSK.WebApi
 
             app.UseSwagger();
             app.UseSwaggerUI(o => o.SwaggerEndpoint("/swagger/v1/swagger.json", "api v1"));
-                     
+
             app.UseMvc();
         }
     }

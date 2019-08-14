@@ -29,7 +29,7 @@ namespace BSK.WebApi.Filters
                     break;
                 case ValidationException exception:
                     var validationResult = new ValidationResult(exception.Errors);
-                    validationResult.AddToModelState(context.ModelState, null);   
+                    validationResult.AddToModelState(context.ModelState, null);
                     context.Result = new BadRequestObjectResult(context.ModelState);
                     break;
             }
