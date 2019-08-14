@@ -3,7 +3,7 @@ using BSK.Models.Database;
 
 namespace BSK.Repository
 {
-    public interface IRepository
+    public interface IContext
     {
         List<User> Users { get; set; }
         List<Basket> Baskets { get; set; }

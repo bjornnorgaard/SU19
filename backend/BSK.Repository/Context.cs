@@ -3,13 +3,13 @@ using BSK.Models.Database;
 
 namespace BSK.Repository
 {
-    public class Repository : IRepository
+    public class Context : IContext
     {
         public List<User> Users { get; set; } = new List<User>();
         public List<Basket> Baskets { get; set; } = new List<Basket>();
         public List<Product> Products { get; set; } = new List<Product>();
 
-        public Repository()
+        public Context()
         {
             var users = new List<User>
             {

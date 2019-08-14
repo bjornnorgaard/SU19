@@ -12,7 +12,7 @@ namespace BSK.WebApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMediator();
-            services.AddSingleton<IRepository, Repository.Repository>();
+            services.AddSingleton<IContext, Context>();
             services.AddSwagger();
             services.AddMvc();
         }
