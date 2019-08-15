@@ -30,19 +30,19 @@ namespace BSK.Application.Features.Basket
 
         public class Handler : IRequestHandler<Command, Result>
         {
-            private readonly IContext _context;
+            private readonly IBskContext _bskContext;
 
-            public Handler(IContext context)
+            public Handler(IBskContext bskContext)
             {
-                _context = context;
+                _bskContext = bskContext;
             }
 
             public Task<Result> Handle(Command command, CancellationToken cancellationToken)
             {
-                var user = _context.Users.FirstOrDefault(u => u.Id == command.UserId);
+                var user = _bskContext.Users.FirstOrDefault(u => u.Id == command.UserId);
                 if(user == null) throw new NotFoundException("User not found");
 
-                var basket = _context.Baskets.FirstOrDefault(b => b.UserId == command.UserId);
+                var basket = _bskContext.Baskets.FirstOrDefault(b => b.UserId == command.UserId);
                 if(basket == null) basket = new Models.Database.Basket(command.UserId);
 
                 return Task.FromResult(new Result { Basket = basket });

@@ -32,20 +32,20 @@ namespace BSK.Application.Features.User
 
         public class Handler : IRequestHandler<Command, Result>
         {
-            private readonly IContext _context;
+            private readonly IBskContext _bskContext;
 
-            public Handler(IContext context)
+            public Handler(IBskContext bskContext)
             {
-                _context = context;
+                _bskContext = bskContext;
             }
 
             public Task<Result> Handle(Command command, CancellationToken cancellationToken)
             {
-                var user = _context.Users.FirstOrDefault(u => u.Id == command.Id);
+                var user = _bskContext.Users.FirstOrDefault(u => u.Id == command.Id);
                 if(user != null) throw new ArgumentException("User already exists");
 
                 user = new Models.Database.User { Id = command.Id, Name = command.Name };
-                _context.Users.Add(user);
+                _bskContext.Users.Add(user);
 
                 return Task.FromResult(new Result { User = user });
             }
