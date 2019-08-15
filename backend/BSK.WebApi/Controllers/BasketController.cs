@@ -28,6 +28,7 @@ namespace BSK.WebApi.Controllers
         }
 
         [HttpPost("get-basket")]
+        [ResponseCache(Duration = 60)]
         public async Task<GetBasket.Result> GetBasket([FromBody] GetBasket.Command command)
         {
             return await _mediator.Send(command);

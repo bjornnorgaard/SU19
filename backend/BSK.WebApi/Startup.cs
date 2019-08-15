@@ -12,7 +12,14 @@ namespace BSK.WebApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMediator();
+            services.AddResponseCaching();
             services.AddSingleton<IContext, Context>();
+            services.AddCors(o => o.AddDefaultPolicy(b => b
+                .AllowAnyOrigin()
+                .AllowAnyHeader()
+                .AllowAnyMethod()
+                .AllowCredentials()
+            ));
             services.AddSwagger();
             services.AddMvc();
         }
@@ -20,7 +27,10 @@ namespace BSK.WebApi
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if(env.IsDevelopment()) app.UseDeveloperExceptionPage();
+            app.UseResponseCaching();
+            app.UseCors();
             app.UseMiddleware<TraceMiddleware>();
+            app.UseMiddleware<ETagMiddleware>();
             app.UseMiddleware<StopwatchMiddleware>();
             app.UseSwashbuckleSwagger();
             app.UseMvc();
